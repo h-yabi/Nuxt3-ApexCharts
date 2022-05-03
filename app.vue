@@ -1,5 +1,6 @@
 <template>
-  <div>{{ data }}</div>
+  <div v-if="isLoading">Loading…</div>
+  <div v-else>{{ data }}</div>
   {{ getDate }}
 </template>
 
@@ -14,10 +15,13 @@ console.log(getDate);
 
 const data = ref([]);
 const country = 'japan';
+const isLoading = ref<boolean>(false);
 
 onMounted(async () => {
+  isLoading.value = true;
   const apiData = await axios.get(`/api/${country}`);
   data.value = apiData.data;
+  isLoading.value = false;
 });
 </script>
 
