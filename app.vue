@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoading">Loading…</div>
   <div v-else>
-    <DoughnutChart v-bind="doughnutChartProps" />
+    <BarChart v-bind="barChartProps" />
     {{ data }}
   </div>
   <!-- {{ getDate }} -->
@@ -12,7 +12,14 @@ import { ref, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import { DoughnutChart, useDoughnutChart } from 'vue-chart-3';
+import {
+  DoughnutChart,
+  LineChart,
+  BarChart,
+  useLineChart,
+  useBarChart,
+  useDoughnutChart,
+} from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -25,7 +32,7 @@ const dataValues = ref([30, 40, 60, 70, 5]);
 const dataLabels = ref(['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre']);
 const toggleLegend = ref(true);
 
-const testData = computed<ChartData<'doughnut'>>(() => ({
+const testData = computed<ChartData<'bar'>>(() => ({
   labels: dataLabels.value,
   datasets: [
     {
@@ -35,7 +42,7 @@ const testData = computed<ChartData<'doughnut'>>(() => ({
   ],
 }));
 
-const options = computed<ChartOptions<'doughnut'>>(() => ({
+const options = computed<ChartOptions<'bar'>>(() => ({
   scales: {
     myScale: {
       type: 'logarithmic',
@@ -53,7 +60,7 @@ const options = computed<ChartOptions<'doughnut'>>(() => ({
   },
 }));
 
-const { doughnutChartProps, doughnutChartRef } = useDoughnutChart({
+const { barChartProps, barChartRef } = useBarChart({
   chartData: testData,
   options,
 });
