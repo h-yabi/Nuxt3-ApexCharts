@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt';
-const TOKYO_COVID_CSV = process.env.TOKYO_COVID_CSV;
-const API_BASE_URL = process.env.API_BASE_URL;
+const API_URL = process.env.API_URL;
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -11,7 +10,7 @@ export default defineNuxtConfig({
     server: {
       proxy: {
         '/api/': {
-          target: API_BASE_URL,
+          target: API_URL,
           changeOrigin: true,
           rewrite: (path: any) => path.replace(/^\/api/, ''),
         },
@@ -19,7 +18,6 @@ export default defineNuxtConfig({
     },
   },
   publicRuntimeConfig: {
-    API_BASE_URL,
-    TOKYO_COVID_CSV,
+    API_URL,
   },
 });

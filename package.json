@@ -7,9 +7,11 @@
     "preview": "nuxt preview"
   },
   "devDependencies": {
+    "@nuxtjs/moment": "^1.6.1",
     "nuxt": "3.0.0-rc.1"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.13.6"
+    "@nuxtjs/axios": "^5.13.6",
+    "dayjs": "^1.11.1"
   }
 }

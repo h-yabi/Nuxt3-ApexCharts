@@ -1,14 +1,23 @@
-<template>test</template>
+<template>
+  <div>{{ data }}</div>
+  {{ getDate }}
+</template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import dayjs from 'dayjs';
 import axios from 'axios';
-const config = useRuntimeConfig();
-const TOKYO_COVID_CSV = config.TOKYO_COVID_CSV;
+
+const now = dayjs();
+const getDate = dayjs().subtract(1, 'days').format('YYYY-MM-DD');
+console.log(getDate);
+
+const data = ref([]);
+const country = 'japan';
 
 onMounted(async () => {
-  const { data } = await axios.get(`/api/${TOKYO_COVID_CSV}`);
-  console.log(data);
+  const apiData = await axios.get(`/api/${country}`);
+  data.value = apiData.data;
 });
 </script>
 
