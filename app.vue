@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoading">Loading…</div>
   <div v-else>
-    <BarChart v-bind="barChartProps" />
+    <LineChart v-bind="lineChartProps" />
     {{ data }}
   </div>
   <!-- {{ getDate }} -->
@@ -17,7 +17,6 @@ import {
   LineChart,
   BarChart,
   useLineChart,
-  useBarChart,
   useDoughnutChart,
 } from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
@@ -32,17 +31,16 @@ const dataValues = ref([30, 40, 60, 70, 5]);
 const dataLabels = ref(['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre']);
 const toggleLegend = ref(true);
 
-const testData = computed<ChartData<'bar'>>(() => ({
+const testData = computed<ChartData<'line'>>(() => ({
   labels: dataLabels.value,
   datasets: [
     {
       data: dataValues.value,
-      backgroundColor: ['#77CEFF', '#0079AF', '#123E6B', '#97B0C4', '#A5C8ED'],
     },
   ],
 }));
 
-const options = computed<ChartOptions<'bar'>>(() => ({
+const options = computed<ChartOptions<'line'>>(() => ({
   scales: {
     myScale: {
       type: 'logarithmic',
@@ -60,7 +58,7 @@ const options = computed<ChartOptions<'bar'>>(() => ({
   },
 }));
 
-const { barChartProps, barChartRef } = useBarChart({
+const { lineChartProps, lineChartRef } = useLineChart({
   chartData: testData,
   options,
 });
