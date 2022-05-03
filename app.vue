@@ -1,17 +1,14 @@
-<template>
-  {{ config.API_URL }}
-</template>
+<template>test</template>
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import axios from 'axios';
 const config = useRuntimeConfig();
-// import axios from 'axios';
-const API_URL = config.API_URL;
-console.log(API_URL);
+const TOKYO_COVID_CSV = config.TOKYO_COVID_CSV;
 
-onMounted(() => {
-  console.log(process);
-  // const data = axios.get;
+onMounted(async () => {
+  const { data } = await axios.get(`/api/${TOKYO_COVID_CSV}`);
+  console.log(data);
 });
 </script>
 
