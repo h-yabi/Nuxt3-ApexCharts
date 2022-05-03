@@ -12,14 +12,7 @@ import { ref, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import axios from 'axios';
 
-import {
-  DoughnutChart,
-  LineChart,
-  BarChart,
-  useLineChart,
-  useBarChart,
-  useDoughnutChart,
-} from 'vue-chart-3';
+import { BarChart, useBarChart } from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -28,9 +21,8 @@ const now = dayjs();
 const getDate = dayjs().subtract(1, 'days').format('YYYY-MM-DD');
 console.log(getDate);
 
-const dataValues = ref([30, 40, 60, 70, 5]);
+const dataValues = ref([30, 40, 60, 70, 15]);
 const dataLabels = ref(['Paris', 'Nîmes', 'Toulon', 'Perpignan', 'Autre']);
-const toggleLegend = ref(true);
 
 const testData = computed<ChartData<'bar'>>(() => ({
   labels: dataLabels.value,
@@ -43,19 +35,13 @@ const testData = computed<ChartData<'bar'>>(() => ({
 }));
 
 const options = computed<ChartOptions<'bar'>>(() => ({
-  scales: {
-    myScale: {
-      type: 'logarithmic',
-      position: toggleLegend.value ? 'left' : 'right',
-    },
-  },
   plugins: {
     legend: {
-      position: toggleLegend.value ? 'top' : 'bottom',
+      display: false,
     },
     title: {
       display: true,
-      text: 'Chart.js Doughnut Chart',
+      text: 'covid19',
     },
   },
 }));
