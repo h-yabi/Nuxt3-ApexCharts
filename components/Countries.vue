@@ -44,6 +44,7 @@ const selectCountry = () => {
 .cp_ipselect {
   overflow: hidden;
   width: 20%;
+  min-width: 200px;
   margin: 2em auto;
   padding: 10px;
   text-align: center;
