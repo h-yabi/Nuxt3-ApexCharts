@@ -3,11 +3,6 @@
   <div v-else>
     <!-- <BarChart v-bind="barChartProps" /> -->
     <LineChart v-bind="lineChartProps" />
-    {{ infectedValues }}
-    <hr />
-    {{ recoveredValues }}
-    <hr />
-    {{ deadValues }}
   </div>
   <!-- {{ getDate }} -->
 </template>
@@ -26,30 +21,37 @@ Chart.register(...registerables);
 type COUNTRY_TYPE = typeof countryJson;
 
 const data = ref([]);
-const country = 'japan';
+const country = '日本';
 const isLoading = ref<boolean>(false);
 
-// 感染者数
+// 感染者数 - infectedNum
 const infectedValues = ref<number[]>([]);
 
-// 回復者数
-const recoveredValues = ref<number[]>([]);
-
-// 死亡者数
+// 死亡者数 - deceasedNum
 const deadValues = ref<number[]>([]);
 
 // 日付
 const date = ref<string[]>([]);
 
+// 文字列型の数字（"7,901,933"）内にあるカンマを削除
+const removedComma = (data: string) => {
+  return data.replace(/,/g, '');
+};
+
 onMounted(async () => {
   isLoading.value = true;
-  const apiData = await axios.get(`/api/${country}`);
-  data.value = apiData.data;
-  infectedValues.value = apiData.data.map((d: COUNTRY_TYPE) => d.Active);
-  recoveredValues.value = apiData.data.map((d: COUNTRY_TYPE) => d.Recovered);
-  deadValues.value = apiData.data.map((d: COUNTRY_TYPE) => d.Deaths);
-  date.value = apiData.data.map((d: COUNTRY_TYPE) =>
-    dayjs(d.Date).format('YYYY-MM-DD')
+  // const apiData = await axios.get(`/api/${country}`);
+  const apiData = await axios.get(`/api/?dataName=${country}`);
+  const itemList = apiData.data.itemList;
+  data.value = itemList.reverse();
+  infectedValues.value = itemList.map((d: COUNTRY_TYPE) => {
+    return Number(removedComma(d.infectedNum));
+  });
+  deadValues.value = itemList.map((d: COUNTRY_TYPE) => {
+    return Number(removedComma(d.deceasedNum));
+  });
+  date.value = itemList.map((d: COUNTRY_TYPE) =>
+    dayjs(d.date).format('YYYY-MM-DD')
   );
 
   isLoading.value = false;
@@ -66,14 +68,12 @@ const testData = computed<ChartData<'line'>>(() => ({
   labels: date.value,
   datasets: [
     {
+      label: 'Demo line plot',
       data: infectedValues.value,
       backgroundColor: 'rgba(0, 0, 255, 0.5)',
     },
     {
-      data: recoveredValues.value,
-      backgroundColor: '#008080',
-    },
-    {
+      label: 'Demo line plot',
       data: deadValues.value,
       backgroundColor: 'rgba(255, 0, 0, 0.5)',
     },
