@@ -4,14 +4,11 @@ const API_URL = process.env.API_URL;
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   target: 'static',
-  router: {
-    base: '/Nuxt3-ApexCharts/',
-  },
-  generate: {
-    dir: 'docs',
-  },
   typescript: {
     strict: true,
+  },
+  build: {
+    transpile: ['chart.js'],
   },
   vite: {
     server: {
