@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { ref, defineProps } from 'vue';
 import { LineChart, useLineChart } from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
 Chart.register(...registerables);
@@ -22,7 +22,7 @@ const chartData = computed<ChartData<'line'>>(() => ({
   datasets: [
     {
       data: props.infectedValues,
-      backgroundColor: '#008080',
+      backgroundColor: 'rgba(0, 128, 128, 0.3)',
     },
     {
       data: props.deadValues,
