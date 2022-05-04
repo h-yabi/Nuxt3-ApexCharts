@@ -7,6 +7,12 @@ export default defineNuxtConfig({
   typescript: {
     strict: true,
   },
+  router: {
+    base: '/Nuxt3-ApexCharts/',
+  },
+  generate: {
+    dir: 'docs',
+  },
   build: {
     transpile: ['chart.js'],
   },
