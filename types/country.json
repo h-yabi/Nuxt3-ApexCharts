@@ -1,0 +1,15 @@
+{
+  "ID": "b9d5c989-e5c4-4863-a693-da4a132a9bc2",
+  "Country": "Japan",
+  "CountryCode": "JP",
+  "Province": "",
+  "City": "",
+  "CityCode": "",
+  "Lat": "36.2",
+  "Lon": "138.25",
+  "Confirmed": 2,
+  "Deaths": 0,
+  "Recovered": 0,
+  "Active": 2,
+  "Date": "2020-01-22T00:00:00Z"
+}
