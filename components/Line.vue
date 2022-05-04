@@ -17,23 +17,22 @@ type Props = {
 const toggleLegend = ref(true);
 const props = defineProps<Props>();
 
-const testData = computed<ChartData<'line'>>(() => ({
+const chartData = computed<ChartData<'line'>>(() => ({
   labels: props.dates,
   datasets: [
     {
-      label: 'Demo line plot',
       data: props.infectedValues,
-      backgroundColor: 'rgba(0, 0, 255, 0.5)',
+      backgroundColor: '#008080',
     },
     {
-      label: 'Demo line plot',
       data: props.deadValues,
-      backgroundColor: 'rgba(255, 0, 0, 0.5)',
+      backgroundColor: 'rgba(255, 0, 0, 0.3)',
     },
   ],
 }));
 
 const options = computed<ChartOptions<'line'>>(() => ({
+  type: 'line',
   scales: {
     myScale: {
       type: 'logarithmic',
@@ -46,13 +45,30 @@ const options = computed<ChartOptions<'line'>>(() => ({
     },
     title: {
       display: true,
-      text: 'covid19',
+      text: 'コロナウィルス感染状況',
+      font: {
+        size: 20,
+      },
+      padding: {
+        top: 20,
+        bottom: 20,
+      },
+    },
+    subtitle: {
+      display: true,
+      text: '【累計】感染者数・死亡者数',
+      font: {
+        size: 16,
+      },
+      padding: {
+        bottom: 20,
+      },
     },
   },
 }));
 
-const { lineChartProps, lineChartRef } = useLineChart({
-  chartData: testData,
+const { lineChartProps } = useLineChart({
+  chartData,
   options,
 });
 </script>
