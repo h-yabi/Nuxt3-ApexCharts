@@ -25,16 +25,24 @@ const country = 'japan';
 const isLoading = ref<boolean>(false);
 
 // 感染者数
-const infectedValues = ref([]);
+const infectedValues = ref<number[]>([]);
+
+// 回復者数
+const recoveredValues = ref<number[]>([]);
+
+// 死亡者数
+const deadValues = ref<number[]>([]);
 
 // 日付
-const date = ref([]);
+const date = ref<string[]>([]);
 
 onMounted(async () => {
   isLoading.value = true;
   const apiData = await axios.get(`/api/${country}`);
   data.value = apiData.data;
   infectedValues.value = apiData.data.map((d: COUNTRY_TYPE) => d.Confirmed);
+  recoveredValues.value = apiData.data.map((d: COUNTRY_TYPE) => d.Recovered);
+  deadValues.value = apiData.data.map((d: COUNTRY_TYPE) => d.Deaths);
   date.value = apiData.data.map((d: COUNTRY_TYPE) =>
     dayjs(d.Date).format('YYYY-MM-DD')
   );
@@ -53,11 +61,15 @@ const testData = computed<ChartData<'bar'>>(() => ({
   datasets: [
     {
       data: infectedValues.value,
-      backgroundColor: [
-        'rgba(0, 0, 255, 0.5)',
-        '#008080',
-        'rgba(255, 0, 0, 0.5)',
-      ],
+      backgroundColor: ['rgba(0, 0, 255, 0.5)'],
+    },
+    {
+      data: recoveredValues.value,
+      backgroundColor: ['#008080'],
+    },
+    {
+      data: deadValues.value,
+      backgroundColor: ['rgba(255, 0, 0, 0.5)'],
     },
   ],
 }));
