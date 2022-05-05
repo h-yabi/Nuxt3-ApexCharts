@@ -3,9 +3,7 @@
     <Title>{{ TITLE }}</Title>
     <Meta name="description" :content="DESCRIPTION" />
   </Head>
-  <div v-if="isLoading" class="loading">
-    <img src="@/src/assets/loading.gif" alt="" />
-  </div>
+  <Loading v-if="isLoading" :is-loading="isLoading" />
   <div v-else>
     <Countries
       v-if="infectedValues.length"
@@ -32,6 +30,7 @@ import axios from 'axios';
 import { TITLE, DESCRIPTION } from '@/static/constants.js';
 import dataJson from '@/types/data.json';
 // import Line from '@/components/Line.vue';
+import Loading from '@/components/Loading.vue';
 import MostRecentData from '@/components/MostRecentData.vue';
 import Countries from '@/components/SelectCountries.vue';
 
@@ -96,21 +95,4 @@ const getApiData = async () => {
 const selectCountry = (selected: string) => {
   country.value = selected;
 };
-
-const now = dayjs();
-const getDate = dayjs().subtract(1, 'days').format('YYYY-MM-DD');
 </script>
-
-<style scoped>
-.loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-}
-.loading img {
-  margin: auto;
-}
-</style>
