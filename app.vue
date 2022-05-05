@@ -1,9 +1,17 @@
 <template>
+  <Head>
+    <Title>{{ TITLE }}</Title>
+    <Meta name="description" :content="DESCRIPTION" />
+  </Head>
   <div v-if="isLoading" class="loading">
     <img src="@/src/assets/loading.gif" alt="" />
   </div>
   <div v-else>
-    <Countries :country="country" @select-country="selectCountry" />
+    <Countries
+      v-if="infectedValues.length"
+      :country="country"
+      @select-country="selectCountry"
+    />
     <Line
       :infected-values="infectedValues"
       :dead-values="deadValues"
@@ -16,9 +24,10 @@
 import { ref, onMounted } from 'vue';
 import dayjs from 'dayjs';
 import axios from 'axios';
-import dataJson from './types/data.json';
-import Line from './components/Line.vue';
-import Countries from './components/Countries.vue';
+import { TITLE, DESCRIPTION } from '@/static/constants.js';
+import dataJson from '@/types/data.json';
+import Line from '@/components/Line.vue';
+import Countries from '@/components/Countries.vue';
 
 // 型情報
 type DATA_TYPE = typeof dataJson;

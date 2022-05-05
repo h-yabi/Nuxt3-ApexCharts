@@ -6,6 +6,7 @@
 import { ref, defineProps } from 'vue';
 import { LineChart, useLineChart } from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
+import { TITLE, DESCRIPTION } from '@/static/constants.js';
 Chart.register(...registerables);
 
 type Props = {
@@ -45,7 +46,7 @@ const options = computed<ChartOptions<'line'>>(() => ({
     },
     title: {
       display: true,
-      text: 'コロナウィルス感染状況',
+      text: TITLE,
       font: {
         size: 20,
       },
@@ -56,7 +57,7 @@ const options = computed<ChartOptions<'line'>>(() => ({
     },
     subtitle: {
       display: true,
-      text: '【累計】感染者数・死亡者数',
+      text: DESCRIPTION,
       font: {
         size: 16,
       },
