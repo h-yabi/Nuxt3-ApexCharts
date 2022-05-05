@@ -3,23 +3,22 @@
     <Title>{{ TITLE }}</Title>
     <Meta name="description" :content="DESCRIPTION" />
   </Head>
+
   <Loading v-if="isLoading" />
-  <div v-else>
-    <SelectCountries
-      v-if="infectedValues.length"
-      :country="country"
-      @select-country="selectCountry"
-    />
-    <!-- <Line
-      :infected-values="infectedValues"
-      :dead-values="deadValues"
-      :dates="dates"
-    /> -->
-    <MostRecentData
-      :infected-values="infectedValues"
-      :dead-values="deadValues"
-      :dates="dates"
-    />
+  <div v-else class="contents">
+    <div class="countries-data-wrap">
+      <SelectCountries
+        v-if="infectedValues.length"
+        :country="country"
+        @select-country="selectCountry"
+      />
+      <MostRecentData
+        :infected-values="infectedValues"
+        :dead-values="deadValues"
+        :dates="dates"
+      />
+    </div>
+    <CountriesData :all-countries-data="allCountriesData" />
   </div>
 </template>
 
@@ -30,12 +29,16 @@ import axios from 'axios';
 import { TITLE, DESCRIPTION } from '@/static/constants.js';
 import dataJson from '@/types/data.json';
 // import Line from '@/components/Line.vue';
+import SelectCountries from '@/components/SelectCountries.vue';
 import Loading from '@/components/Loading.vue';
 import MostRecentData from '@/components/MostRecentData.vue';
-import SelectCountries from '@/components/SelectCountries.vue';
+import CountriesData from '@/components/CountriesData.vue';
 
 // 型情報
 type DATA_TYPE = typeof dataJson;
+
+// 全ての国のデータ
+const allCountriesData = ref<DATA_TYPE[]>([]);
 
 // 感染者数 - infectedNum
 const infectedValues = ref<number[]>([]);
@@ -102,10 +105,26 @@ const getMostRecentData = async () => {
 const getAllCountriesData = async () => {
   const date = dayjs().subtract(2, 'days').format('YYYYMMDD');
   const apiData = await axios.get(`/api/?date=${date}`);
-  console.log(apiData);
+  const itemList = apiData.data.itemList;
+  allCountriesData.value = itemList;
 };
 
 const selectCountry = (selected: string) => {
   country.value = selected;
 };
 </script>
+
+<style scoped>
+.contents {
+  display: flex;
+  position: relative;
+  padding: 30px 15px;
+}
+.countries-data,
+.countries-data-wrap {
+  width: 50%;
+}
+.countries-data-wrap {
+  position: relative;
+}
+</style>

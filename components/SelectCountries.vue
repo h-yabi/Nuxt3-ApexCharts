@@ -1,14 +1,16 @@
 <template>
-  <div class="cp_ipselect cp_sl01">
-    <select name="" id="" v-model="selected" @change="selectCountry">
-      <option
-        v-for="(country, index) in countries"
-        :value="country"
-        :key="index"
-      >
-        {{ country }}
-      </option>
-    </select>
+  <div class="select-wrap">
+    <div class="cp_ipselect cp_sl01">
+      <select name="" id="" v-model="selected" @change="selectCountry">
+        <option
+          v-for="(country, index) in countries"
+          :value="country"
+          :key="index"
+        >
+          {{ country }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -41,12 +43,17 @@ const selectCountry = () => {
 </script>
 
 <style scoped>
+.select-wrap {
+  position: absolute;
+  z-index: 2;
+  top: -20px;
+  right: 0;
+}
 .cp_ipselect {
-  overflow: hidden;
   width: 20%;
-  min-width: 200px;
+  min-width: 150px;
   margin: 2em auto;
-  padding: 10px;
+  overflow: hidden;
   text-align: center;
 }
 .cp_ipselect select {
@@ -76,7 +83,7 @@ const selectCountry = () => {
 .cp_ipselect.cp_sl01::before {
   position: absolute;
   top: 45%;
-  right: 1.8em;
+  right: 15px;
   width: 0;
   height: 0;
   padding: 0;
@@ -87,7 +94,7 @@ const selectCountry = () => {
   pointer-events: none;
 }
 .cp_ipselect.cp_sl01 select {
-  padding: 8px 38px 8px 8px;
+  padding: 18px 38px 18px 15px;
   color: black;
 }
 </style>

@@ -1,5 +1,7 @@
 <template>
-  <BarChart v-bind="barChartProps" />
+  <div class="most-recent-data">
+    <BarChart v-bind="barChartProps" :height="500" />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -62,5 +64,3 @@ const { barChartProps } = useBarChart({
   options,
 });
 </script>
-
-<style scoped></style>

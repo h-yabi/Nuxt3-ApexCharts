@@ -1,51 +1,76 @@
 <template>
-  <BarChart v-bind="barChartProps" />
+  <div class="countries-data">
+    <BarChart v-bind="barChartProps" :height="12000" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, defineProps } from 'vue';
 import { BarChart, useBarChart } from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
-import { DAILY_TITLE } from '@/static/constants.js';
+import { COUNTRIES_TITLE } from '@/static/constants.js';
+import dataJson from '@/types/data.json';
 Chart.register(...registerables);
 
+// 型情報
+type DATA_TYPE = typeof dataJson;
+
 type Props = {
-  infectedValues: number[];
-  deadValues: number[];
-  dates: string[];
+  allCountriesData: DATA_TYPE[];
 };
 
 const toggleLegend = ref(true);
 const props = defineProps<Props>();
 
+// 文字列型の数字（"7,901,933"）内にあるカンマを削除
+const removedComma = (data: string) => {
+  return data.replace(/,/g, '');
+};
+
+// 感染者数 - infectedNum
+const infectedValues = ref<number[]>([]);
+infectedValues.value = props.allCountriesData.map((d: DATA_TYPE) =>
+  Number(removedComma(d.infectedNum))
+);
+
+// 死亡者数 - deceasedNum
+const deadValues = ref<number[]>([]);
+deadValues.value = props.allCountriesData.map((d: DATA_TYPE) =>
+  Number(removedComma(d.deceasedNum))
+);
+
+// 日付
+const countries = ref<string[]>([]);
+countries.value = props.allCountriesData.map((d: DATA_TYPE) => d.dataName);
+
 const chartData = computed<ChartData<'bar'>>(() => ({
-  labels: props.dates,
+  labels: countries.value,
   datasets: [
     {
       label: '感染者数',
-      data: props.infectedValues,
+      data: infectedValues.value,
       backgroundColor: ['rgba(0, 0, 255, 0.5)'],
     },
     {
       label: '死亡者数',
-      data: props.deadValues,
+      data: deadValues.value,
       backgroundColor: ['rgba(255, 0, 0, 0.3)'],
     },
   ],
 }));
 
 const options = computed<ChartOptions<'bar'>>(() => ({
-  type: 'line',
+  indexAxis: 'y',
   scales: {
     myScale: {
       type: 'logarithmic',
-      position: toggleLegend.value ? 'left' : 'right',
+      position: toggleLegend.value ? 'top' : 'bottom',
     },
   },
   plugins: {
     title: {
       display: true,
-      text: DAILY_TITLE,
+      text: COUNTRIES_TITLE,
       font: {
         size: 20,
       },
@@ -63,4 +88,12 @@ const { barChartProps } = useBarChart({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.countries-data {
+  max-height: 480px;
+  overflow-y: scroll;
+}
+.countries-data > div {
+  left: -100px;
+}
+</style>
