@@ -39,7 +39,7 @@ deadValues.value = props.allCountriesData.map((d: DATA_TYPE) =>
   Number(removedComma(d.deceasedNum))
 );
 
-// 日付
+// 国名
 const countries = ref<string[]>([]);
 countries.value = props.allCountriesData.map((d: DATA_TYPE) => d.dataName);
 
