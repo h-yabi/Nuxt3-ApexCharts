@@ -67,16 +67,29 @@ onMounted(async () => {
 const getApiData = async () => {
   isLoading.value = true;
   const apiData = await axios.get(`/api/?dataName=${country.value}`);
-  const itemList = await apiData.data.itemList.slice(0, 10);
-  infectedValues.value = await itemList.map((d: DATA_TYPE) => {
-    return Number(removedComma(d.infectedNum));
+  const itemList = apiData.data.itemList.slice(0, 11);
+  infectedValues.value = itemList.map((d: DATA_TYPE, index: number) => {
+    let num;
+    if (itemList[index + 1] !== undefined) {
+      num =
+        Number(removedComma(d.infectedNum)) -
+        Number(removedComma(itemList[index + 1].infectedNum));
+    }
+    return num;
   });
-  deadValues.value = await itemList.map((d: DATA_TYPE) => {
-    return Number(removedComma(d.deceasedNum));
+  deadValues.value = itemList.map((d: DATA_TYPE, index: number) => {
+    let num;
+    if (itemList[index + 1] !== undefined) {
+      num =
+        Number(removedComma(d.deceasedNum)) -
+        Number(removedComma(itemList[index + 1].deceasedNum));
+    }
+    return num;
   });
-  dates.value = await itemList.map((d: DATA_TYPE) =>
+  let datesArray = itemList.map((d: DATA_TYPE) =>
     dayjs(d.date).format('YYYY-MM-DD')
   );
+  dates.value = datesArray.slice(0, -1);
   isLoading.value = false;
 };
 
