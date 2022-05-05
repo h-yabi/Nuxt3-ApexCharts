@@ -3,9 +3,9 @@
     <Title>{{ TITLE }}</Title>
     <Meta name="description" :content="DESCRIPTION" />
   </Head>
-  <Loading v-if="isLoading" :is-loading="isLoading" />
+  <Loading v-if="isLoading" />
   <div v-else>
-    <Countries
+    <SelectCountries
       v-if="infectedValues.length"
       :country="country"
       @select-country="selectCountry"
@@ -32,7 +32,7 @@ import dataJson from '@/types/data.json';
 // import Line from '@/components/Line.vue';
 import Loading from '@/components/Loading.vue';
 import MostRecentData from '@/components/MostRecentData.vue';
-import Countries from '@/components/SelectCountries.vue';
+import SelectCountries from '@/components/SelectCountries.vue';
 
 // 型情報
 type DATA_TYPE = typeof dataJson;
@@ -56,15 +56,22 @@ const isLoading = ref<boolean>(false);
 
 watch(country, (newValue) => {
   country.value = newValue;
-  getApiData();
+  (async () => {
+    isLoading.value = true;
+    await getMostRecentData();
+    isLoading.value = false;
+  })();
 });
 
 onMounted(async () => {
-  getApiData();
+  isLoading.value = true;
+  await getMostRecentData();
+  await getAllCountriesData();
+  isLoading.value = false;
 });
 
-const getApiData = async () => {
-  isLoading.value = true;
+// 直近10日間のデータ
+const getMostRecentData = async () => {
   const apiData = await axios.get(`/api/?dataName=${country.value}`);
   const itemList = apiData.data.itemList.slice(0, 11);
   infectedValues.value = itemList.map((d: DATA_TYPE, index: number) => {
@@ -89,7 +96,13 @@ const getApiData = async () => {
     dayjs(d.date).format('YYYY-MM-DD')
   );
   dates.value = datesArray.slice(0, -1);
-  isLoading.value = false;
+};
+
+// 全ての国のデータ
+const getAllCountriesData = async () => {
+  const date = dayjs().subtract(2, 'days').format('YYYYMMDD');
+  const apiData = await axios.get(`/api/?date=${date}`);
+  console.log(apiData);
 };
 
 const selectCountry = (selected: string) => {

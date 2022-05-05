@@ -1,17 +1,10 @@
 <template>
-  <div v-if="isLoading" class="loading">
+  <div class="loading">
     <img src="@/src/assets/loading.gif" alt="" />
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps } from 'vue';
-
-type Props = {
-  isLoading: boolean;
-};
-defineProps<Props>();
-</script>
+<script setup lang="ts"></script>
 
 <style scoped>
 .loading {
