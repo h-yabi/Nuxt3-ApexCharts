@@ -17,7 +17,7 @@
       :dead-values="deadValues"
       :dates="dates"
     /> -->
-    <Bar
+    <MostRecentData
       :infected-values="infectedValues"
       :dead-values="deadValues"
       :dates="dates"
@@ -32,8 +32,8 @@ import axios from 'axios';
 import { TITLE, DESCRIPTION } from '@/static/constants.js';
 import dataJson from '@/types/data.json';
 // import Line from '@/components/Line.vue';
-import Bar from '@/components/Bar.vue';
-import Countries from '@/components/Countries.vue';
+import MostRecentData from '@/components/MostRecentData.vue';
+import Countries from '@/components/SelectCountries.vue';
 
 // 型情報
 type DATA_TYPE = typeof dataJson;
