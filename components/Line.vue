@@ -25,21 +25,21 @@ const chartData = computed<ChartData<'line'>>(() => ({
       data: props.infectedValues,
       backgroundColor: 'rgba(0, 128, 128, 0.3)',
     },
-    {
-      data: props.deadValues,
-      backgroundColor: 'rgba(255, 0, 0, 0.3)',
-    },
+    // {
+    //   data: props.deadValues,
+    //   backgroundColor: 'rgba(255, 0, 0, 0.3)',
+    // },
   ],
 }));
 
 const options = computed<ChartOptions<'line'>>(() => ({
   type: 'line',
-  scales: {
-    myScale: {
-      type: 'logarithmic',
-      position: toggleLegend.value ? 'left' : 'right',
-    },
-  },
+  // scales: {
+  //   myScale: {
+  //     type: 'logarithmic',
+  //     position: toggleLegend.value ? 'left' : 'right',
+  //   },
+  // },
   plugins: {
     legend: {
       display: false,

@@ -61,14 +61,14 @@ onMounted(async () => {
 const getApiData = async () => {
   isLoading.value = true;
   const apiData = await axios.get(`/api/?dataName=${country.value}`);
-  const itemList = apiData.data.itemList.reverse();
-  infectedValues.value = itemList.map((d: DATA_TYPE) => {
+  const itemList = await apiData.data.itemList.slice(0, 10);
+  infectedValues.value = await itemList.map((d: DATA_TYPE) => {
     return Number(removedComma(d.infectedNum));
   });
-  deadValues.value = itemList.map((d: DATA_TYPE) => {
+  deadValues.value = await itemList.map((d: DATA_TYPE) => {
     return Number(removedComma(d.deceasedNum));
   });
-  dates.value = itemList.map((d: DATA_TYPE) =>
+  dates.value = await itemList.map((d: DATA_TYPE) =>
     dayjs(d.date).format('YYYY-MM-DD')
   );
   isLoading.value = false;
