@@ -6,7 +6,7 @@
 import { ref, defineProps } from 'vue';
 import { BarChart, useBarChart } from 'vue-chart-3';
 import { Chart, ChartData, ChartOptions, registerables } from 'chart.js';
-import { TITLE, DESCRIPTION } from '@/static/constants.js';
+import { DAILY_TITLE } from '@/static/constants.js';
 Chart.register(...registerables);
 
 type Props = {
@@ -22,10 +22,12 @@ const chartData = computed<ChartData<'bar'>>(() => ({
   labels: props.dates,
   datasets: [
     {
+      label: '感染者数',
       data: props.infectedValues,
       backgroundColor: ['rgba(0, 0, 255, 0.5)'],
     },
     {
+      label: '死亡者数',
       data: props.deadValues,
       backgroundColor: ['rgba(255, 0, 0, 0.3)'],
     },
@@ -41,28 +43,15 @@ const options = computed<ChartOptions<'bar'>>(() => ({
     },
   },
   plugins: {
-    legend: {
-      display: false,
-    },
     title: {
       display: true,
-      text: TITLE,
+      text: DAILY_TITLE,
       font: {
         size: 20,
       },
       padding: {
         top: 20,
-        bottom: 20,
-      },
-    },
-    subtitle: {
-      display: true,
-      text: DESCRIPTION,
-      font: {
-        size: 16,
-      },
-      padding: {
-        bottom: 20,
+        bottom: 10,
       },
     },
   },

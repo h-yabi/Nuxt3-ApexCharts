@@ -86,7 +86,7 @@ const getApiData = async () => {
     }
     return num;
   });
-  let datesArray = itemList.map((d: DATA_TYPE) =>
+  const datesArray = itemList.map((d: DATA_TYPE) =>
     dayjs(d.date).format('YYYY-MM-DD')
   );
   dates.value = datesArray.slice(0, -1);
