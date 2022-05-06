@@ -42,12 +42,16 @@ const selectCountry = () => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/src/assets/scss/_mixin.scss';
+
 .select-wrap {
-  position: absolute;
-  z-index: 2;
-  top: -20px;
-  right: 0;
+  @include pc {
+    position: absolute;
+    z-index: 2;
+    top: -20px;
+    right: 0;
+  }
 }
 .cp_ipselect {
   width: 20%;

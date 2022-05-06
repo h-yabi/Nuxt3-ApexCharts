@@ -77,17 +77,26 @@ const selectCountry = (selected: string) => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '@/src/assets/scss/_mixin.scss';
+
 .contents {
-  display: flex;
   position: relative;
   padding: 30px 15px;
+  @include pc {
+    display: flex;
+  }
 }
 .countries-data,
 .countries-data-wrap {
-  width: 50%;
+  @include pc {
+    width: 50%;
+  }
 }
 .countries-data-wrap {
   position: relative;
+  @include sp {
+    margin-bottom: 30px;
+  }
 }
 </style>

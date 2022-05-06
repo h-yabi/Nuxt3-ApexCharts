@@ -89,11 +89,18 @@ const { barChartProps } = useBarChart({
 </script>
 
 <style scoped lang="scss">
+@import '@/src/assets/scss/_mixin.scss';
+
 .countries-data {
   max-height: 480px;
   overflow-y: scroll;
   div {
-    left: -100px;
+    @include pc {
+      left: -100px;
+    }
   }
+}
+#bar-chart {
+  width: 100%;
 }
 </style>
