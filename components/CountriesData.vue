@@ -88,12 +88,12 @@ const { barChartProps } = useBarChart({
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .countries-data {
   max-height: 480px;
   overflow-y: scroll;
-}
-.countries-data > div {
-  left: -100px;
+  div {
+    left: -100px;
+  }
 }
 </style>
